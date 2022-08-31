@@ -1,0 +1,124 @@
+
+.conatiner{
+    background-color: rgb(55, 54, 63);
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+    padding: 0;
+    margin: 0;
+    font-size: 2rem;
+
+}
+
+.password {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 4rem;
+    height: 100px;
+    width: 50%;
+}
+
+@media (max-width: 800px) {
+    .password {
+        width: 90%;
+
+
+    }
+}
+
+.test {
+  color: red;
+}
+
+.gridContainer {
+    overflow: hidden;
+    width: 50%;
+    height: 60vw;
+    text-align: center;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: auto auto auto;
+    background-color: #2196F3;
+    border-radius: 1rem;
+    padding: 10px;
+}
+
+@media (max-width: 800px) {
+    .gridContainer {
+        width: 300px;
+        height: 100vw;
+    }
+}
+
+.enterBtn {
+
+  /* background: #FF4742;
+  border: 1px solid #FF4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 16px;
+  outline: 0;
+  width: 50%;
+  margin-top: 10px;
+  padding: 12px 14px;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  margin-bottom: 50px; */
+}
+
+ 
+.enterBtn:active {
+  /* background-color: initial;
+  background-position: 0 0;
+  color: #FF4742; */
+}
+
+
+.numberBtn {
+  /* height: 100%;
+  background-color: #153d86;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: 200ms;
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  font-size: 2rem;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation; */
+}
+
+.numberBtn:not(:disabled):hover{
+  /* outline: 0;
+  background: #ddba8d; */
+  
+}
+
+.numberBtn:disabled {
+  /* filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed; */
+}
