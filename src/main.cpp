@@ -7,10 +7,10 @@
 #include "configManager.h"
 #include "dashboard.h"
 #include "timeSync.h"
-#include <TimeOut.h>
 
 #define PASSWORD 123456
-#define DOOR_DELAY 1500
+#define DOOR_DELAY_OPEN 1500
+#define DOOR_DELAY_HOME 800
 #define LED D4
 #define MOTOR_PIN_1 D5 
 #define MOTOR_PIN_2 D6
@@ -21,7 +21,11 @@ struct task
     unsigned long previous;
 };
 
+// updates data
 task taskA = { .rate = 500, .previous = 0 };
+
+// login timeout
+task taskB = { .rate = 120000, .previous = 0 };
 
 
 typedef struct loginArr {
@@ -45,10 +49,10 @@ void unlockDoor(){
     digitalWrite(LED, LOW);
     digitalWrite(MOTOR_PIN_1, HIGH);
     digitalWrite(MOTOR_PIN_2, LOW);
-    delay(DOOR_DELAY);
+    delay(DOOR_DELAY_OPEN);
     digitalWrite(MOTOR_PIN_1, LOW);
     digitalWrite(MOTOR_PIN_2, HIGH);
-    delay(DOOR_DELAY);
+    delay(DOOR_DELAY_HOME);
     digitalWrite(LED, LOW);
     digitalWrite(MOTOR_PIN_1, LOW);
     digitalWrite(MOTOR_PIN_2, LOW);
@@ -58,34 +62,18 @@ void lockDoor(){
     digitalWrite(LED, HIGH);
     digitalWrite(MOTOR_PIN_1, LOW);
     digitalWrite(MOTOR_PIN_2, HIGH);
-    delay(DOOR_DELAY);
+    delay(DOOR_DELAY_OPEN);
     digitalWrite(MOTOR_PIN_1, HIGH);
     digitalWrite(MOTOR_PIN_2, LOW);
-    delay(DOOR_DELAY);
+    delay(DOOR_DELAY_HOME);
     digitalWrite(MOTOR_PIN_1, LOW);
     digitalWrite(MOTOR_PIN_2, LOW);
 
 }
 
-
-
-TimeOut timeout0;
-
-void callback1() {
-  Serial.println("Timer have been trigged after 10 sec.");
-  Serial.println("");
-}
-
-void callback5() {
-  Serial.println("Anonymous timer was after after 45 second.");
-  Serial.println("");
-}
-
 void setup() 
 {
     Serial.begin(115200);
-    TimeOut(5000, callback5); // call timer anonymously, this cannot be canceled
-    // timeout0.timeOut(10000, callback1); //delay, callback function
     pinMode(LED, OUTPUT);
     pinMode(MOTOR_PIN_1, OUTPUT);
     pinMode(MOTOR_PIN_2, OUTPUT);
@@ -147,6 +135,17 @@ void loop()
             }
         }
 
+    }
+
+    if(dash.data.passwordAcceptance){
+        if (millis() - taskB.previous > taskB.rate){
+            dash.data.passwordAcceptance=false;
+            Serial.println("password reset");
+        }
+    }
+    else{
+        // get last millis  
+        taskB.previous = millis();
     }
     
 }
