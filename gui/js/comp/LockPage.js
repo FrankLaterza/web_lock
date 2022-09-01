@@ -162,7 +162,6 @@ export function LockPage(props) {
 
     function Ret(){
         
-    
         return (
             <>
                 { (auth) ? 
