@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
+
 import { Form, Button, Spinner, Confirmation } from "./UiComponents";
 import { FiWifi as Wifi, FiLock as Lock, FiServer as Server, FiCornerDownRight as CornerDownRight } from "react-icons/fi";
 
@@ -16,9 +16,6 @@ export function WifiPage(props) {
     const [forgetModal, setForgetModal] = useState(false);
     const [saveModal, setSaveModal] = useState(false);
     const [dhcpForm, setDhcpForm] = useState(true);
-
-    const [auth, setAuth] = useState(0);
-    setAuth(props.data.passwordAcceptance);
 
     useEffect(() => {
         document.title = loc.titleWifi;
@@ -101,23 +98,5 @@ export function WifiPage(props) {
             cancel={() => setSaveModal(false)}>{loc.wifiModal2}</Confirmation>
     </>;
 
-    return ( 
-
-        <>
-            { (auth) 
-                ? {page}
-                : <div>no auth</div>
-            }
-        </>
-        
-    );
+    return page;
 }
-
-
-WifiPage.propTypes = {    
-    data: PropTypes.object,
-    API: PropTypes.string,
-    socket: PropTypes.object,
-};
-
-

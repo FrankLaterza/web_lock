@@ -159,6 +159,8 @@ export function LockPage(props) {
         event.currentTarget.style.backgroundColor = (lock) ? "green" : "red";
     }
 
+    // console.log(props.data);
+
 
     function Ret(){
         

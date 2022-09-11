@@ -26,6 +26,8 @@ task taskA = { .rate = 500, .previous = 0 };
 // login timeout
 task taskB = { .rate = 120000, .previous = 0 };
 
+task taskC = { .rate = 3000, .previous = 0 };
+
 typedef struct loginArr {
     int val;
     // char uuid[36];
@@ -75,7 +77,7 @@ void setup() {
     configManager.begin();
     WiFiManager.begin(configManager.data.projectName);
     timeSync.begin();
-    dash.begin(500);
+    dash.begin(1000);
 }
 
 void loop() {
@@ -120,6 +122,8 @@ void loop() {
                 unlockDoor();
             }
         }
+
+
     }
 
     if (dash.data.passwordAcceptance) {
@@ -132,4 +136,11 @@ void loop() {
         // get last millis
         taskB.previous = millis();
     }
+
+    // if (millis() - taskC.previous > taskC.rate) {
+    //     taskC.previous = millis();
+    //     Serial.print("heap: ");
+    //     Serial.println(ESP.getFreeHeap(),DEC);
+    // }
+
 }

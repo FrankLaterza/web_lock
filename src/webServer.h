@@ -12,7 +12,7 @@ private:
     void bindAll();
 
 public:
-    AsyncWebServer server = AsyncWebServer(301);
+    AsyncWebServer server = AsyncWebServer(80);
     AsyncWebSocket ws = AsyncWebSocket("/ws");
     ArRequestHandlerFunction requestHandler = serveProgmem;
     void begin();

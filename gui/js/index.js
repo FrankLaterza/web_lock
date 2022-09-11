@@ -30,7 +30,7 @@ if (process.env.NODE_ENV === "production") {url = window.location.origin;}
 
 if (process.env.NODE_ENV === "development") {require("preact/debug");}
 
-const displayData = new Array();
+// const displayData = new Array();
 
 
 function Root() {
@@ -51,8 +51,8 @@ function Root() {
 
     function wsMessage(event) {
         event.data.arrayBuffer().then((buffer) => {                
-            const dv = new DataView(buffer, 0);
-            const timestamp = dv.getUint32(0, true);
+            // const dv = new DataView(buffer, 0);
+            // const timestamp = dv.getUint32(0, true);
         
 
             let dataIn = new Object();
@@ -60,14 +60,14 @@ function Root() {
             // console.log(dataIn.length, Object.keys(dataIn).length === 0, Object.keys(dataIn).length);
 
             if (Object.keys(dataIn).length !== 0){
-                console.log("updated");
                 setData(dataIn);
+                // console.log("updated");
             }
 
             
             
             // setData([timestamp, bin2obj(buffer.slice(4,buffer.byteLength), Dash)]);
-            displayData.push([timestamp, bin2obj(buffer.slice(4,buffer.byteLength), Dash)]);     
+            // displayData.push([timestamp, bin2obj(buffer.slice(4,buffer.byteLength), Dash)]);     
         });
     }
 
@@ -109,28 +109,28 @@ function Root() {
                             uuid={storeduuid}
                             data={data} />        
                     </Route>
-                    <Route exact path="/files">
+                    {/* <Route exact path="/files">
                         <FilePage API={url}
                             data={data} />
-                    </Route>
-                    <Route exact path="/dashboard">
+                    </Route> */}
+                    {/* <Route exact path="/dashboard">
                         <DashboardPage API={url} 
                             socket={socket}
                             data={data} 
                             requestData={() => {return displayData;}} />
-                    </Route>
+                    </Route> */}
                     <Route exact path="/lock">
                         <LockPage API={url} 
                             socket={socket}
                             data={data} />
                     </Route>
-                    <Route exact path="/firmware">
+                    {/* <Route exact path="/firmware">
                         <FirmwarePage API={url} 
                             data={data} />
                     </Route>
-                    <Route path="/wifi">
+                    <Route path="/wifi">    
                         <WifiPage API={url} />
-                    </Route>
+                    </Route> */}
                 </Switch>
             </Page>
 
