@@ -1,5 +1,3 @@
-# Software (Frank and Jesse): 
-
 ## Overview: 
 
 We wanted to create an easy way to toggle the lock mechanism. The first idea we had was to use the ESP8266 because of its easy-to-use Wi-Fi module and IO. The idea was to run a website and communicate to the chip over the web. When researching this project, we came accosted the esp8266-iot-framework library by maakbaas on GitHub. This would allow us to host a webserver on the EP8266 and connect to it via an IP address. The browser would then direct you to a webpage and allow us to comminate with the IO. Perfect! 
