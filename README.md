@@ -1,55 +1,11 @@
-# ESP8266 IoT Framework ![Status](https://travis-ci.com/maakbaas/esp8266-iot-framework.svg?branch=master) ![PlatformIO Registry](https://badges.registry.platformio.org/packages/maakbaas/library/ESP8266%20IoT%20Framework.svg)
+#Software (Frank and Jesse): 
 
-The ESP8266 IoT Framework is a set of modules to be used as a starting point in new ESP8266 projects, implementing HTTPS requests, a React web interface, WiFi manager, configuration manager, live dashboard and OTA updates.
+##Overview: 
 
-The unique advantage of this framework is that code generation at build time is used to provide different benefits. Code generation is used to dynamically generate a configuration struct and a live dashboard from JSON files, to incorporate the web interface into PROGMEM in the firmware and to bundle a full root certificate store in PROGMEM that allows the ESP8266 to do secure HTTPS requests to arbitrary URLs.
+We wanted to create an easy way to toggle the lock mechanism. The first idea we had was to use the ESP8266 because of its easy-to-use Wi-Fi module and IO. The idea was to run a website and communicate to the chip over the web. When researching this project, we came accosted the esp8266-iot-framework library by maakbaas on GitHub. This would allow us to host a webserver on the EP8266 and connect to it via an IP address. The browser would then direct you to a webpage and allow us to comminate with the IO. Perfect! 
 
-## Documentation
+We created the website in ReactJS which would then be compiled down into binary and stored on the chip. First, the only accessible page of the website is the password page. Once the correct password is entered it will then redirect you to the lock control screen. All other pages will not be available until the correct password is submitted for the given browser id. Controlling the IO is done through an API using https, so the communication between the server and client is secure. The password, lock control, and, authentication is all handled on the ESP8266, which is not accessible by anyone besides the chip itself. There may be security flaws that we are not aware of but the fact is, it would be easier to pick the lock than hack the webserver. 
 
-* [Introduction](https://github.com/maakbaas/esp8266-iot-framework#introduction)
-* [Getting Started](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/getting-started.md)
-* [Installation Guide](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/installation-guide.md)
-* [Web Server](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/web-server.md)
-* [WiFi Manager](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/wifi-manager.md)
-* [Dashboard](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/dashboard.md)
-* [Configuration Manager](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/config-manager.md)
-* [File Manager](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/file-manager.md)
-* [HTTPS Requests](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/fetch.md)
-* [OTA Updater](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/updater.md)
+##Login System: 
 
-Details beyond the documentation can be found at [maakbaas.com](https://maakbaas.com/esp8266-iot-framework/).
-
-## Quick start
-
-If you are new to PlatformIO, start with the [installation guide](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/installation-guide.md). Otherwise, simply start a new project for your ESP8266, and add the following line to your `platformio.ini` file:
-
-```ini
-lib_deps = ESP8266 IoT Framework
-```
-
-Take one of the [examples](https://github.com/maakbaas/esp8266-iot-framework/tree/master/examples) as a starting point to develop your application.
-
-## Screenshots
-
-![Dashboard](https://raw.githubusercontent.com/maakbaas/esp8266-iot-framework/master/docs/img/screenshot-dashboard.png)
-
-<p align="center"><img width="49%" src="https://raw.githubusercontent.com/maakbaas/esp8266-iot-framework/master/docs/img/screenshot-wifi.png" /> &nbsp;<img width="49%" src="https://raw.githubusercontent.com/maakbaas/esp8266-iot-framework/master/docs/img/screenshot-config.png" />&nbsp;</p>
-<p align="center"><img width="49%" src="https://raw.githubusercontent.com/maakbaas/esp8266-iot-framework/master/docs/img/screenshot-file.png" /> &nbsp;<img width="49%" src="https://raw.githubusercontent.com/maakbaas/esp8266-iot-framework/master/docs/img/screenshot-firmware.png" />&nbsp;</p>
-
-## Introduction
-
-The framework consists of five main parts. A web server including the interface it's serving, a WiFi manager, a configuration manager and classes for HTTP requests and OTA updates. The architecture of the framework is shown in the following diagram:
-
-![Architecture](https://github.com/maakbaas/esp8266-iot-framework/blob/master/docs/img/framework.png?raw=true)
-*Architecture of the framework shown in blue*
-
-The basic principles used in developing this framework are:
-
-1. The framework is built upon the ESP8266 Arduino libraries
-2. The framework does not include any functionality to control external hardware.
-3. The framework is fully self-contained for easy deployment. SPIFFS/LittleFS storage is not needed.
-4. There is a strict split between the ESP8266 application and the web interface through an API.
-
-In short, the framework aims to be unobtrusive, easy to deploy, with a modern web interface that's easy to modify and expand for different projects :). 
-
-**Note:** The ESP32 is not supported by this framework right now, due to the reliance on BearSSL. BearSSL is part of the ESP8266 Arduino libraries, but not part of the ESP32 Arduino libraries. Also, many functionalities of this framework are supported by ESP-IDF for the ESP32. Therefore my recommendation would be to use ESP-IDF and I don't see enough added value in porting this framework.
+It would be annoying to type the password every time you wanted to lock the door. So, we came up with an idea to save create a browser id using the UUID v4 format and save it to local storage. This way we can write code to recognize if the user has already used login with that browser. We designed the login system as a linked list of structs that stores the ID and last time the user has logged in. It will store 20 different users and remove them after 10 days. 
