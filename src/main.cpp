@@ -10,7 +10,7 @@
 
 #define PASSWORD 74269
 #define DOOR_DELAY_OPEN 2000
-#define DOOR_DELAY_HOME 1500
+#define DOOR_DELAY_HOME 1300
 #define LED D4
 #define MOTOR_PIN_1 D5
 #define MOTOR_PIN_2 D6
@@ -41,7 +41,7 @@ typedef struct loginArr {
 
 // }
 
-void unlockDoor() {
+void lockDoor() {
     digitalWrite(LED, LOW);
     digitalWrite(MOTOR_PIN_1, HIGH);
     digitalWrite(MOTOR_PIN_2, LOW);
@@ -54,13 +54,14 @@ void unlockDoor() {
     digitalWrite(MOTOR_PIN_2, LOW);
 }
 
-void lockDoor() {
+void unlockDoor() {
     digitalWrite(LED, HIGH);
     digitalWrite(MOTOR_PIN_1, LOW);
     digitalWrite(MOTOR_PIN_2, HIGH);
     delay(DOOR_DELAY_OPEN);
     digitalWrite(MOTOR_PIN_1, HIGH);
     digitalWrite(MOTOR_PIN_2, LOW);
+    // FRANK U ARE A GAY MAN THIS IS FROM UR COMPUTER
     delay(DOOR_DELAY_HOME);
     digitalWrite(MOTOR_PIN_1, LOW);
     digitalWrite(MOTOR_PIN_2, LOW);
@@ -78,6 +79,8 @@ void setup() {
     WiFiManager.begin(configManager.data.projectName);
     timeSync.begin();
     dash.begin(1000);
+
+    dash.data.isLocked = true;
 }
 
 void loop() {
@@ -122,18 +125,19 @@ void loop() {
                 unlockDoor();
             }
         }
-
-
     }
 
     if (dash.data.passwordAcceptance) {
         if (millis() - taskB.previous > taskB.rate) {
+            taskB.previous = millis();
             dash.data.passwordAcceptance = false;
             lockDoor();
+            dash.data.isLocked = true;
+            dash.data.passwordInput = 0;
             Serial.println("password reset");
+            // ESP.restart();
         }
     } else {
-        // get last millis
         taskB.previous = millis();
     }
 
@@ -142,5 +146,4 @@ void loop() {
     //     Serial.print("heap: ");
     //     Serial.println(ESP.getFreeHeap(),DEC);
     // }
-
 }

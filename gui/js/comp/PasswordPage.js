@@ -128,70 +128,72 @@ const NumberBtn = styled.button`
 const Numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export function PasswordPage(props) {
-    const [auth, setAuth] = useState(0);
-    setAuth(props.data.passwordAcceptance);
+  const [auth, setAuth] = useState(0);
+  setAuth(props.data.passwordAcceptance);
 
-    const [password, setPassword] = useState("");
-    let loginToggle = 0;
+  const [password, setPassword] = useState("");
+  let loginToggle = 0;
 
-    function handleChange(e, num) {
-        if (password.length !== 6) {
-        // console.log(dashboardData[dashboardData.length - 1] [1]);
-            setPassword(String(password) + String(num));
-        }
+  function handleChange(e, num) {
+    if (password.length !== 6) {
+      // console.log(dashboardData[dashboardData.length - 1] [1]);
+      setPassword(String(password) + String(num));
     }
+  }
 
-    function handleChangeRemove() {
-        setPassword(String(Math.floor(password / 10)));
-        if (password.length === 1) {
-            setPassword("");
-        }
+  function handleChangeRemove() {
+    setPassword(String(Math.floor(password / 10)));
+    if (password.length === 1) {
+      setPassword("");
     }
+  }
 
-    const history = useHistory();
+  const history = useHistory();
 
-    // this will check with if auth on client
-    function checkAuth(e, password) {
-        // sends the current date
-        // postAPI("date", Date.now(), "char", props.API);
+  // this will check with if auth on client
+  function checkAuth(e, password) {
+    // sends the current date
+    // postAPI("date", Date.now(), "char", props.API);
 
-        // checks if the password is aviable
-        postAPI("passwordInput", password, "uint32_t", props.API);
-        setPassword("");
-    }
-    if (auth) {
-        history.push("/lock");
-    }
+    // checks if the password is aviable
+    postAPI("passwordInput", password, "uint32_t", props.API);
+    //reset the password
+    setPassword("");
+  }
+  if (auth) {
+    history.push("/lock");
+  }
 
-    // console.log(props.data);
+  console.log(props.data);
+  console.log(password);
 
-    return (
-        <Conatiner>
-            <Header>
-                <b>Password</b>
-            </Header>
-            <Password>
-                {password}
-                {password.length > 0 ? (
-                    <p onClick={(e) => handleChangeRemove(e)}>{" <"}</p>
-                ) : (
-                    ""
-                )}
-            </Password>
-            <GridContainer>
-                {Numbers.map((num, index) => (
-                    <NumberBtn key={index} onClick={(e) => handleChange(e, num)}>
-                        {num}
-                    </NumberBtn>
-                ))}
-            </GridContainer>
-            <EnterBtn onClick={(e) => checkAuth(e, password)}>ENTER</EnterBtn>
-        </Conatiner>
-    );
+  return (
+    <Conatiner>
+      <Header>
+        <b>Password</b>
+      </Header>
+      <Password>
+        {password}
+        {password.length > 0 ? (
+          <p onClick={(e) => handleChangeRemove(e)}>{" <"}</p>
+        ) : (
+          ""
+        )}
+      </Password>
+      <GridContainer>
+        {Numbers.map((num, index) => (
+          <NumberBtn key={index} onClick={(e) => handleChange(e, num)}>
+            {num}
+          </NumberBtn>
+        ))}
+      </GridContainer>
+      <EnterBtn onClick={(e) => checkAuth(e, password)}>ENTER</EnterBtn>
+    </Conatiner>
+  );
 }
 
 PasswordPage.propTypes = {
-    API: PropTypes.string,
-    uuid: PropTypes.number,
-    data: PropTypes.object,
+  API: PropTypes.string,
+  uuid: PropTypes.number,
+  data: PropTypes.object,
 };
