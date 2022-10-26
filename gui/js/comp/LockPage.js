@@ -91,7 +91,7 @@ const Lock = styled.div`
     margin-top: 10vw;
     width: 5vw;
     height: 16vw;
-    background-color: rgb(46, 46, 46);
+    background-color: rgb(45, 0, 104);
     border: solid;
     border-color: black;
     border-width: 1vw;
@@ -158,7 +158,7 @@ export function LockPage(props) {
     
     event.currentTarget.style.transform = `rotate(${lock * 90}deg)`;
     event.currentTarget.style.transition = `2s ease`;
-    event.currentTarget.style.backgroundColor = lock ? "green" : "red";
+    event.currentTarget.style.backgroundColor = (lock) ? 'rgb(233, 171, 0)' : 'rgb(45, 0, 104)';
   }
 
   // remove the ease
