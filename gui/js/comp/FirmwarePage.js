@@ -26,7 +26,6 @@ const Wizard = styled(Flex)`
         width:32%;
         padding-bottom:0.3em;
         border-bottom:3px solid #000;
-
         svg {
             float:right;
         }
@@ -36,7 +35,6 @@ const Wizard = styled(Flex)`
         color: ${cSecondary};
         border-color: ${cSecondary};
     }
-
     @media (max-width: 750px) 
     {
         flex-wrap:wrap;
@@ -156,4 +154,3 @@ FirmwarePage.propTypes = {
     API: PropTypes.string,
     data: PropTypes.object,
 };
-

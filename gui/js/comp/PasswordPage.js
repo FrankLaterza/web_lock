@@ -48,6 +48,7 @@ const Password = styled.div`
   font-size: 3.5rem;
   height: 100px;
   width: 50%;
+  gap: 15;
 
   @media (max-width: 800px) {
     width: 80%;
@@ -89,6 +90,7 @@ const EnterBtn = styled.div`
   width: 25vw;
   height: 80px;
   margin-top: 10px;
+  margin-bottom: 80px;
   padding: 10px;
   text-align: center;
   text-rendering: geometricprecision;
@@ -175,9 +177,9 @@ export function PasswordPage(props) {
         <b>Password</b>
       </Header>
       <Password>
-        {password}
+        <b>{password}</b>
         {password.length > 0 ? (
-          <p onClick={(e) => handleChangeRemove(e)}>{" 🎃"}</p>
+          <p onClick={(e) => handleChangeRemove(e)}>{"🎃"}</p>
         ) : (
           ""
         )}

@@ -136,7 +136,8 @@ function Root() {
               data={data} /> 
             </Route>
             <Route path="/wifi">
-              <WifiPage API={url} />
+              <WifiPage API={url}
+              data={data}/> 
             </Route>
           </Switch>
         </Page>
