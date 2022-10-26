@@ -165,6 +165,9 @@ export function LockPage(props) {
 
   // console.log(props.data);
 
+  // unlock on pageloag
+  postAPI("Unlock", true, "bool", props.API);
+
   function Ret() {
     return (
       <>
