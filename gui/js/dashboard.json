@@ -1,0 +1,44 @@
+[
+    {
+        "name": "date",
+        "type": "char",
+        "length": 13,
+        "direction": "control"
+    },
+    {
+        "name": "browserId",
+        "type": "char",
+        "length": 36,
+        "direction": "control"
+    },
+    {
+        "name": "passwordAcceptance",
+        "type": "bool",
+        "direction": "display"
+    },
+    {
+        "name": "passwordFail",
+        "type": "uint32_t",
+        "direction": "display"
+    },
+    {
+        "name": "isLocked",
+        "type": "bool",
+        "direction": "display"
+    },
+    {
+        "name": "passwordInput",
+        "type": "uint32_t",
+        "direction": "control"
+    },
+    {
+        "name": "Lock",
+        "type": "bool",
+        "direction": "control"
+    },
+    {
+        "name": "Unlock",
+        "type": "bool",
+        "direction": "control"
+    }
+]
