@@ -71,7 +71,7 @@ const LockBase = styled.div`
   margin-top: 100px;
   width: 25vw;
   height: 25vw;
-  background-color: red;
+  background-color: rgb(45, 0, 104);
   border-radius: 50%;
   border: solid;
   border-color: black;
@@ -91,7 +91,7 @@ const Lock = styled.div`
     margin-top: 10vw;
     width: 5vw;
     height: 16vw;
-    background-color: rgb(45, 0, 104);
+    background-color: black;
     border: solid;
     border-color: black;
     border-width: 1vw;
@@ -159,14 +159,13 @@ export function LockPage(props) {
     event.currentTarget.style.transform = `rotate(${lock * 90}deg)`;
     event.currentTarget.style.transition = `2s ease`;
     event.currentTarget.style.backgroundColor = (lock) ? 'rgb(233, 171, 0)' : 'rgb(45, 0, 104)';
+    resetAnimation(event); // call the reset
   }
 
   // remove the ease
-
-  // console.log(props.data);
-
-  // unlock on pageloag
-  postAPI("Unlock", true, "bool", props.API);
+  const resetAnimation = setTimeout(function (event) {
+    event.currentTarget.style.transition = `none`;
+  }, 2000);
 
   function Ret() {
     return (

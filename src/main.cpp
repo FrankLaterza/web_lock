@@ -98,8 +98,13 @@ void loop() {
 
         if (dash.data.passwordInput != 0) {
             if (dash.data.passwordInput == PASSWORD) {
+                
                 dash.data.passwordAcceptance = true;
                 dash.data.passwordFail = 0;
+                // unlock the door
+                dash.data.Unlock = false;
+                dash.data.isLocked = false;
+                unlockDoor();
             } else {
                 dash.data.passwordAcceptance = false;
                 dash.data.passwordFail++;
