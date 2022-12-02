@@ -98,6 +98,7 @@ void loop() {
 
         if (dash.data.passwordInput != 0) {
             if (dash.data.passwordInput == PASSWORD) {
+
                 dash.data.passwordAcceptance = true;
                 dash.data.passwordFail = 0;
             } else {

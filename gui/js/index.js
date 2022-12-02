@@ -131,12 +131,13 @@ function Root() {
             <Route exact path="/lock">
               <LockPage API={url} socket={socket} data={data} />
             </Route>
-            {/* <Route exact path="/firmware">
-                        <FirmwarePage API={url} 
-                            data={data} /> 
-                    </Route> */}
+            <Route exact path="/firmware">
+              <FirmwarePage API={url} 
+              data={data} /> 
+            </Route>
             <Route path="/wifi">
-              <WifiPage API={url} />
+              <WifiPage API={url}
+              data={data}/> 
             </Route>
           </Switch>
         </Page>
