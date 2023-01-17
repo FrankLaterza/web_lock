@@ -2,13 +2,13 @@
     {
         "name": "date",
         "type": "char",
-        "length": 13,
+        "length": 11,
         "direction": "control"
     },
     {
         "name": "browserId",
         "type": "char",
-        "length": 36,
+        "length": 37,
         "direction": "control"
     },
     {
@@ -41,4 +41,5 @@
         "type": "bool",
         "direction": "control"
     }
+
 ]

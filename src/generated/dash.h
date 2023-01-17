@@ -3,8 +3,8 @@
 
 struct dashboardData
 {
-	char date[13];
-	char browserId[36];
+	char date[11];
+	char browserId[37];
 	bool passwordAcceptance;
 	uint32_t passwordFail;
 	bool isLocked;

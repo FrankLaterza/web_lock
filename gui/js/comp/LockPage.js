@@ -188,6 +188,7 @@ export function LockPage(props) {
 
     
     const [backgroundColor, setBackgroundColor] = useState('rgb(198, 198, 198)');
+    const [color, setInputTextColor] = useState('rgb(53, 53, 53)');
 
     // without await
     function getSunset() {
@@ -198,14 +199,17 @@ export function LockPage(props) {
             if (sunrise < current && sunset > current) {
                 // console.log("sun is up");
                 setBackgroundColor('rgb(198, 198, 198)');
+                setInputTextColor('rgb(53, 53, 53)');
             }
             else {
                 // console.log("sun is down");
                 setBackgroundColor('rgb(53, 53, 53)');
+                setInputTextColor('rgb(198, 198, 198)');
             }
 
         }))
     }
+
 
     // runs once
     if(once){
@@ -236,7 +240,7 @@ export function LockPage(props) {
                         <LockBase onClick={handleClick}>
                             <Lock />
                         </LockBase>
-                        <h1>{lock ? "Locked" : "Unlocked"}</h1>
+                        <h1 style={{color}}>{lock ? "Locked" : "Unlocked"}</h1>
                     </Conatiner>
                 ) : (
                     <div>no auth</div>

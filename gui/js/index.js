@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
 import { FiBox as HeaderIcon } from "react-icons/fi";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import {
   GlobalStyle,
   Menu,
@@ -101,13 +101,6 @@ function Root() {
       : "";
   }
 
-  // make id for the browser
-  const unique_id = uuid();
-  let storeduuid = localStorage.getItem("uuid");
-  if (storeduuid === null) {
-    localStorage.setItem("uuid", unique_id);
-    storeduuid = unique_id;
-  }
 
   return (
     <>
@@ -116,7 +109,7 @@ function Root() {
         <Page>
           <Switch>
             <Route exact path="/">
-              <PasswordPage API={url} uuid={storeduuid} data={data} />
+              <PasswordPage API={url} data={data} />
             </Route>
             {/* <Route exact path="/files">
                         <FilePage API={url}

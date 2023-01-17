@@ -3,9 +3,9 @@ import PropTypes, { func } from "prop-types";
 import { useHistory } from "react-router-dom";
 import { postAPI } from "./ControlItem";
 import styled from "styled-components";
+import { v4 as uuid } from "uuid";
 
 // STYLES 
-
 const Conatiner = styled.div`
   overflow: none;
   background-color: rgba(41, 41, 41, 1);
@@ -182,6 +182,7 @@ export function PasswordPage(props) {
     }
 
     const [backgroundColor, setBackgroundColor] = useState('rgb(198, 198, 198)');
+    const [color, setInputTextColor] = useState('rgb(53, 53, 53)');
 
     // without await
     function getSunset() {
@@ -192,27 +193,44 @@ export function PasswordPage(props) {
             if (sunrise < current && sunset > current) {
                 // console.log("sun is up");
                 setBackgroundColor('rgb(198, 198, 198)');
+                setInputTextColor('rgb(53, 53, 53)');
             }
             else {
                 // console.log("sun is down");
                 setBackgroundColor('rgb(53, 53, 53)');
+                setInputTextColor('rgb(198, 198, 198)');
             }
 
         }))
     }
 
+    // make id for the browser
+    const unique_id = uuid();
+    let storeduuid = localStorage.getItem("uuid");
+    if (storeduuid === null) {
+        localStorage.setItem("uuid", unique_id);
+        storeduuid = unique_id;
+    }
+
+
     // runs once
-    if(once){
+    if (once) {
         getSunset();
+        // user loaded
+        postAPI("date", Math.floor(Date.now()/1000).toString(), "char", props.API);
+        postAPI("browserId", storeduuid.toString(), "char", props.API);
         once = false;
     }
+
+    // console.log(Date.now().toString());
+    // console.log(storeduuid.toString());
 
     return (
         <Conatiner style={{ backgroundImage: `url("${flake}")`, backgroundColor }}>
             <Header>
                 <b>Password</b>
             </Header>
-            <Password>
+            <Password style={{ color }}>
                 <b>{password}</b>
                 {password.length > 0 ? (
                     <p onClick={(e) => handleChangeRemove(e)}>{"❄️"}</p>
@@ -234,6 +252,5 @@ export function PasswordPage(props) {
 
 PasswordPage.propTypes = {
     API: PropTypes.string,
-    uuid: PropTypes.number,
     data: PropTypes.object,
 };
