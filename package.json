@@ -45,5 +45,13 @@
   },
   "directories": {
     "example": "examples"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankLaterza/web_lock.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FrankLaterza/web_lock/issues"
+  },
+  "homepage": "https://github.com/FrankLaterza/web_lock#readme"
 }

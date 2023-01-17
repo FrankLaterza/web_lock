@@ -28,19 +28,19 @@ task taskB = { .rate = 120000, .previous = 0 };
 
 task taskC = { .rate = 3000, .previous = 0 };
 
-typedef struct loginArr {
+struct loginArr {
     int val;
-    // char uuid[36];
-    // char lastDate[13];
-} loginArr_t;
+    char uuid[36];
+    char lastDate[13];
+} typedef loginArr_t;
 
 // create an array of 30 login spots
 
 // bool checkLogin(loginArr login, char uuid[36], char lastDate[13]){
-//     strcmp (uuid, login[0].uuid);
 
 // }
 
+// function to lock the door
 void lockDoor() {
     digitalWrite(LED, LOW);
     digitalWrite(MOTOR_PIN_1, HIGH);
@@ -54,6 +54,7 @@ void lockDoor() {
     digitalWrite(MOTOR_PIN_2, LOW);
 }
 
+// function to unlock the door
 void unlockDoor() {
     digitalWrite(LED, HIGH);
     digitalWrite(MOTOR_PIN_1, LOW);
@@ -67,12 +68,68 @@ void unlockDoor() {
     digitalWrite(MOTOR_PIN_2, LOW);
 }
 
+// toggles the lock state
+void checkLock(){
+    // if lock is toggled
+    if (dash.data.Lock) {
+        dash.data.Lock = false;
+        dash.data.isLocked = true;
+        lockDoor();
+    }
+    // if unlock is toggled
+    if (dash.data.Unlock) {
+        dash.data.Unlock = false;
+        dash.data.isLocked = false;
+        unlockDoor();
+    }
+}
+
+/* 
+ * checks if the current password is true.
+
+ * if password accepted then it will set the
+ * acceptance to true. This is needed for the
+ * door lock page to load. this will reset 
+ * in a defined period of time.
+ * 
+ * if not the accpentace will be false and the
+ * lock page won't load. this also counts fails
+*/
+void checkPassword(){
+
+    // if the password maches
+    if (dash.data.passwordInput == PASSWORD) {
+        // set the acceptance to true
+        dash.data.passwordAcceptance = true;
+        // reset fail count
+        // dash.data.passwordFail = 0;
+
+    // if pasword failed
+    } else if (dash.data.passwordInput != 0) {
+        // set the api to unaccepted password
+        dash.data.passwordAcceptance = false;
+        // add one to the fail count
+        // dash.data.passwordFail++;
+    }
+}
+
+void resetAcceptance(){
+    dash.data.passwordAcceptance = false;
+    lockDoor();
+    Serial.println("password reset");
+    // ESP.restart();
+}
+
+// setup
 void setup() {
+    // setup serail
     Serial.begin(115200);
+    // pin setup
     pinMode(LED, OUTPUT);
     pinMode(MOTOR_PIN_1, OUTPUT);
     pinMode(MOTOR_PIN_2, OUTPUT);
 
+    // start all the librarys
     LittleFS.begin();
     GUI.begin();
     configManager.begin();
@@ -80,7 +137,8 @@ void setup() {
     timeSync.begin();
     dash.begin(1000);
 
-    dash.data.isLocked = true;
+    // the door should start locked
+    dash.data.isLocked = false;
 }
 
 void loop() {
@@ -95,56 +153,25 @@ void loop() {
     if (taskA.previous == 0 || (millis() - taskA.previous > taskA.rate)) {
         // get last millis
         taskA.previous = millis();
-
-        if (dash.data.passwordInput != 0) {
-            if (dash.data.passwordInput == PASSWORD) {
-
-                dash.data.passwordAcceptance = true;
-                dash.data.passwordFail = 0;
-            } else {
-                dash.data.passwordAcceptance = false;
-                dash.data.passwordFail++;
-            }
-            dash.data.passwordInput = 0;
-        }
-        // if lock button is pressed
-
-        // if password is accepted
-        if (dash.data.passwordAcceptance) {
-
-            // if lock is toggled
-            if (dash.data.Lock) {
-                dash.data.Lock = false;
-                dash.data.isLocked = true;
-                lockDoor();
-            }
-
-            // if unlock is toggled
-            if (dash.data.Unlock) {
-                dash.data.Unlock = false;
-                dash.data.isLocked = false;
-                unlockDoor();
-            }
-        }
+        // check the password
+        checkPassword();
+        // reset the password after check
+        dash.data.passwordInput = 0;
     }
 
+    // starts acceptance time window
     if (dash.data.passwordAcceptance) {
+        // start the timer
         if (millis() - taskB.previous > taskB.rate) {
             taskB.previous = millis();
-            dash.data.passwordAcceptance = false;
-            lockDoor();
-            dash.data.isLocked = true;
-            dash.data.passwordInput = 0;
-            Serial.println("password reset");
-            // ESP.restart();
+            resetAcceptance();
         }
+    // record the last time
     } else {
         taskB.previous = millis();
     }
 
-    // if (millis() - taskC.previous > taskC.rate) {
-    //     taskC.previous = millis();
-    //     Serial.print("heap: ");
-    //     Serial.println(ESP.getFreeHeap(),DEC);
-    // }
+    // check the lock state toggle.
+    checkLock(); 
+
 }
