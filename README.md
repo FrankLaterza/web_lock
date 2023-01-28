@@ -6,6 +6,7 @@ We created the website in ReactJS which would then be compiled down into binary 
 
 # Login System: 
 
-It would be annoying to type the password every time you wanted to lock the door. So, we came up with an idea to save create a browser id using the UUID v4 format and save it to local storage. This way we can write code to recognize if the user has already used login with that browser. We designed the login system as a linked list of structs that stores the ID and last time the user has logged in. It will store 20 different users and remove them after 10 days. 
+It would be annoying to type the password every time you wanted to lock the door. So, we came up with an idea to save create a browser id using the UUID v4 format and save it to local storage. This way we can write code to recognize if the user has already used login with that browser. We designed the login system as an array of structs that stores the ID and last time the user has logged in. It will store 10 different users and remove them after 10 days. 
 
- 
+
+![Alt text](./door_lock.png)
